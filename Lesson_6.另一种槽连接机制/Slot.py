@@ -53,6 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show_word.setText(random.choice(self.hello))
 
 
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()

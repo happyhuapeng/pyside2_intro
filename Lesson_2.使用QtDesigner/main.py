@@ -9,14 +9,15 @@ import sys
 import random
 from PySide2 import QtGui, QtWidgets, QtCore
 from PySide2.QtWidgets import QApplication, QMainWindow
-from ui_mainwindow import Ui_MainWindow
+from ui_mainwindow import Ui_MainWindow # 导入UI
 
 
 # 主窗体类
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow): # 继承类有差别
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.resize(800,600)
         # 定义字符
         self.hello = ["Hallo Welt", "Hei maailma", "Hola Mundo", "Привет мир", "Hello world"]
 
