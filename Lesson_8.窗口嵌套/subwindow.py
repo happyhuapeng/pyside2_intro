@@ -23,8 +23,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # 标签
         self.label = QtWidgets.QLabel('Hello world') # label
         self.label.setAlignment(QtCore.Qt.AlignTop | QtCore.Qt.AlignHCenter)
+
         self.Button = QtWidgets.QPushButton('点击打开 sub-window1')
         self.Button.setObjectName('OpenButtonSubwin1') # SetObjectName相当于给这个实例命了个名字。——唯一标识符
+        # 此处必须得给两个button重命名，否则下面的回调函数不好写。
         self.Button2 = QtWidgets.QPushButton('点击打开 sub-window2')
         self.Button2.setObjectName('OpenButtonSubwin2')
         # 将标签添加到布局里
@@ -36,28 +38,31 @@ class MainWindow(QtWidgets.QMainWindow):
         # 将中心控件设定到主窗口
         self.setCentralWidget(self.center_widget)
 
-        # 初始化子窗口
+        # 可以看出窗口》画布layout》控件button等。
+
+        # 初始化子窗口1
         self.subwindow1 = SubWindow1(parent=self)
         # ------------------------------------------
-        self.subwindow2 = SubWindow2()
+        self.subwindow2 = SubWindow2() # 初始化子窗口2
         # 连接子窗口的自定义信号和槽函数
-        self.subwindow2.signal_.connect(self.on_sub2_signal_)
+        self.subwindow2.signal_.connect(self.on_sub2_signal)
 
         # 设置通过ObjectName来连接槽函数
         QtCore.QMetaObject.connectSlotsByName(self)
 
 
     @QtCore.Slot()
-    def on_OpenButtonSubwin1_clicked(self): # 显示子窗口1
+    def on_OpenButtonSubwin1_clicked(self): # 显示子窗口1，对应上面重命名部分
         self.subwindow1.show()
 
     @QtCore.Slot()
     def on_OpenButtonSubwin2_clicked(self): # 显示子窗口2
         self.subwindow2.show()
 
-    def on_sub2_signal_(self, num):  # 子窗口的槽函数
+    def on_sub2_signal(self, num):  # 子窗口的槽函数
         print('收到信号：', num)
-        self.label.setText(random.choice(self.hello))
+        self.label.setText('收到信号：'+random.choice(self.hello))
+
 
 
 class SubWindow1(QtWidgets.QMainWindow):
@@ -96,7 +101,7 @@ class SubWindow1(QtWidgets.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     @QtCore.Slot()
-    def on_ButtonSubWindow1_clicked(self):
+    def on_ButtonSubWindow1_clicked(self): # 更改主窗口显示内容
         self.parent().window().label.setText(random.choice(self.parent().window().hello))
 
 
@@ -114,7 +119,7 @@ class SubWindow2(QtWidgets.QMainWindow):
         """
         super(SubWindow2, self).__init__(parent=parent)
 
-        self.setWindowTitle('Sub window')
+        self.setWindowTitle('Sub window2')
         self.setFixedSize(600, 250)
         self.setWindowModality(QtCore.Qt.ApplicationModal)
 
@@ -139,7 +144,7 @@ class SubWindow2(QtWidgets.QMainWindow):
 
     @QtCore.Slot()
     def on_ButtonSubWindow2_clicked(self):
-        self.signal_.emit(100)
+        self.signal_.emit(10) # 发射信号
 
 
 if __name__ == '__main__':

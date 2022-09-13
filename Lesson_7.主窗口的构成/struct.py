@@ -4,7 +4,8 @@
 @E-Mail: FeiXue@nuaa.edu.cn
 @File: struct.py.py
 @Time: 2020/6/11 16:58
-@Introduction: 
+@Introduction:
+
 """
 
 
